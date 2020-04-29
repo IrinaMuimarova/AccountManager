@@ -16,7 +16,12 @@ public class Account {
     private int money;
 
     public Account(int money) {
-        id = UUID.randomUUID().toString();
+        Random random = new Random();
+        id = random.ints(48, 123)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(7)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
         this.money = money;
         log.info(Thread.currentThread().getName() + ": Создан аккаунт " + id + ". На счету: " + money);
     }
